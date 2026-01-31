@@ -368,6 +368,149 @@ def fb_search():
     clear_screen()
     print_banner()
 
+def company_by_ogrn_search():
+    ogrn = input("Введите ОГРН юр.лица: ").strip()
+    results = search_api2(ogrn, "company_ogrn")
+    save_choice = input("\nВведите Y чтобы сохранить результат (Enter чтобы продолжить): ").strip().upper()
+    if save_choice == "Y":
+        save_to_html_french_kiss(ogrn, results)
+        print("Результаты сохранены в french-kiss.html")
+    input("\nНажмите Enter для продолжения...")
+    clear_screen()
+    print_banner()
+
+def company_by_inn_search():
+    inn = input("Введите ИНН юр.лица: ").strip()
+    results = search_api2(inn, "company_inn")
+    save_choice = input("\nВведите Y чтобы сохранить результат (Enter чтобы продолжить): ").strip().upper()
+    if save_choice == "Y":
+        save_to_html_french_kiss(inn, results)
+        print("Результаты сохранены в french-kiss.html")
+    input("\nНажмите Enter для продолжения...")
+    clear_screen()
+    print_banner()
+
+def ip_by_ogrnip_search():
+    ogrnip = input("Введите ОГРНИП ИП: ").strip()
+    results = search_api2(ogrnip, "ip_ogrnip")
+    save_choice = input("\nВведите Y чтобы сохранить результат (Enter чтобы продолжить): ").strip().upper()
+    if save_choice == "Y":
+        save_to_html_french_kiss(ogrnip, results)
+        print("Результаты сохранены в french-kiss.html")
+    input("\nНажмите Enter для продолжения...")
+    clear_screen()
+    print_banner()
+
+def ip_by_inn_search():
+    inn = input("Введите ИНН ИП: ").strip()
+    results = search_api2(inn, "ip_inn")
+    save_choice = input("\nВведите Y чтобы сохранить результат (Enter чтобы продолжить): ").strip().upper()
+    if save_choice == "Y":
+        save_to_html_french_kiss(inn, results)
+        print("Результаты сохранены в french-kiss.html")
+    input("\nНажмите Enter для продолжения...")
+    clear_screen()
+    print_banner()
+
+def person_by_inn_search():
+    inn = input("Введите ИНН физ.лица: ").strip()
+    results = search_api2(inn, "person_inn")
+    save_choice = input("\nВведите Y чтобы сохранить результат (Enter чтобы продолжить): ").strip().upper()
+    if save_choice == "Y":
+        save_to_html_french_kiss(inn, results)
+        print("Результаты сохранены в french-kiss.html")
+    input("\nНажмите Enter для продолжения...")
+    clear_screen()
+    print_banner()
+
+def company_by_fio_search():
+    fio = input("Введите ФИО для поиска компаний/ИП: ").strip()
+    results = search_api2(fio, "company_fio")
+    save_choice = input("\nВведите Y чтобы сохранить результат (Enter чтобы продолжить): ").strip().upper()
+    if save_choice == "Y":
+        save_to_html_french_kiss(fio, results)
+        print("Результаты сохранены в french-kiss.html")
+    input("\nНажмите Enter для продолжения...")
+    clear_screen()
+    print_banner()
+
+def financial_report_by_ogrn_search():
+    ogrn = input("Введите ОГРН для финансовой отчётности: ").strip()
+    results = search_api2(ogrn, "financial_ogrn")
+    save_choice = input("\nВведите Y чтобы сохранить результат (Enter чтобы продолжить): ").strip().upper()
+    if save_choice == "Y":
+        save_to_html_french_kiss(ogrn, results)
+        print("Результаты сохранены в french-kiss.html")
+    input("\nНажмите Enter для продолжения...")
+    clear_screen()
+    print_banner()
+
+def financial_report_by_inn_search():
+    inn = input("Введите ИНН для финансовой отчётности: ").strip()
+    results = search_api2(inn, "financial_inn")
+    save_choice = input("\nВведите Y чтобы сохранить результат (Enter чтобы продолжить): ").strip().upper()
+    if save_choice == "Y":
+        save_to_html_french_kiss(inn, results)
+        print("Результаты сохранены в french-kiss.html")
+    input("\nНажмите Enter для продолжения...")
+    clear_screen()
+    print_banner()
+
+def government_procurement_by_ogrn_search():
+    ogrn = input("Введите ОГРН для поиска госзакупок: ").strip()
+    results = search_api2(ogrn, "procurement_ogrn")
+    save_choice = input("\nВведите Y чтобы сохранить результат (Enter чтобы продолжить): ").strip().upper()
+    if save_choice == "Y":
+        save_to_html_french_kiss(ogrn, results)
+        print("Результаты сохранены в french-kiss.html")
+    input("\nНажмите Enter для продолжения...")
+    clear_screen()
+    print_banner()
+
+def government_procurement_by_inn_search():
+    inn = input("Введите ИНН для поиска госзакупок: ").strip()
+    results = search_api2(inn, "procurement_inn")
+    save_choice = input("\nВведите Y чтобы сохранить результат (Enter чтобы продолжить): ").strip().upper()
+    if save_choice == "Y":
+        save_to_html_french_kiss(inn, results)
+        print("Результаты сохранены в french-kiss.html")
+    input("\nНажмите Enter для продолжения...")
+    clear_screen()
+    print_banner()
+
+def enforcement_proceedings_by_ogrn_search():
+    ogrn = input("Введите ОГРН для исполнительных производств: ").strip()
+    results = search_api2(ogrn, "enforcement_ogrn")
+    save_choice = input("\nВведите Y чтобы сохранить результат (Enter чтобы продолжить): ").strip().upper()
+    if save_choice == "Y":
+        save_to_html_french_kiss(ogrn, results)
+        print("Результаты сохранены в french-kiss.html")
+    input("\nНажмите Enter для продолжения...")
+    clear_screen()
+    print_banner()
+
+def enforcement_proceedings_by_inn_search():
+    inn = input("Введите ИНН для исполнительных производств: ").strip()
+    results = search_api2(inn, "enforcement_inn")
+    save_choice = input("\nВведите Y чтобы сохранить результат (Enter чтобы продолжить): ").strip().upper()
+    if save_choice == "Y":
+        save_to_html_french_kiss(inn, results)
+        print("Результаты сохранены в french-kiss.html")
+    input("\nНажмите Enter для продолжения...")
+    clear_screen()
+    print_banner()
+
+def banks_by_bik_search():
+    bik = input("Введите БИК банка: ").strip()
+    results = search_api2(bik, "bank_bik")
+    save_choice = input("\nВведите Y чтобы сохранить результат (Enter чтобы продолжить): ").strip().upper()
+    if save_choice == "Y":
+        save_to_html_french_kiss(bik, results)
+        print("Результаты сохранены в french-kiss.html")
+    input("\nНажмите Enter для продолжения...")
+    clear_screen()
+    print_banner()
+
 def save_to_html_french_kiss(query, results):
     from datetime import datetime
     
@@ -753,6 +896,32 @@ def main():
             ok_search()
         elif user_input == "13":
             fb_search()
+        elif user_input == "14":
+            company_by_ogrn_search()
+        elif user_input == "15":
+            company_by_inn_search()
+        elif user_input == "16":
+            ip_by_ogrnip_search()
+        elif user_input == "17":
+            ip_by_inn_search()
+        elif user_input == "18":
+            person_by_inn_search()
+        elif user_input == "19":
+            company_by_fio_search()
+        elif user_input == "20":
+            financial_report_by_ogrn_search()
+        elif user_input == "21":
+            financial_report_by_inn_search()
+        elif user_input == "22":
+            government_procurement_by_ogrn_search()
+        elif user_input == "23":
+            government_procurement_by_inn_search()
+        elif user_input == "24":
+            enforcement_proceedings_by_ogrn_search()
+        elif user_input == "25":
+            enforcement_proceedings_by_inn_search()
+        elif user_input == "26":
+            banks_by_bik_search()
         elif user_input:
             break
 
