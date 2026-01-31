@@ -189,48 +189,25 @@ French kiss - информационный агрегатор. Базы: 10 ТБ
 """
     print(banner)
 
-def phone_search():
-    phone = input("Введите номер телефона (РФ, UA, KZ, UZ): ").strip()
-    
+def search_api2(query, search_type):
     yellow = "\033[33m"
     dark_gray = "\033[90m"
     reset = "\033[0m"
     
-    api1_url = f"https://api.depsearch.sbs/quest={phone}?token=0jv8SQHONMpyRmyRKImo8jT1d4AYqsNu"
     api2_token = "7007109128:rLhEaKSf"
     api2_url = "https://leakosintapi.com/"
     
     all_results = []
     
     try:
-        response1 = requests.get(api1_url)
-        if response1.status_code == 200:
-            data1 = response1.json()
-            if "results" in data1 and data1["results"]:
-                result = data1["results"][0]
-                print(f"\nInformation by number: {phone}")
-                items = list(result.items())
-                for i, (key, value) in enumerate(items[:-1]):
-                    if key != "data":
-                        prefix = "├─" if i < len(items) - 2 else "└─"
-                        print(f"{prefix}{yellow}{key}:{yellow} {dark_gray}{value}.{dark_gray}")
-                all_results.append({"api": "API1", "data": result})
-            else:
-                print(f"\nNo results found in API1 for {phone}")
-        else:
-            print(f"\nAPI1 request failed with status code: {response1.status_code}")
-    except Exception as e:
-        print(f"\nError calling API1: {e}")
-    
-    try:
-        data2 = {"token": api2_token, "request": phone, "limit": 100, "lang": "ru"}
+        data2 = {"token": api2_token, "request": query, "limit": 100, "lang": "ru"}
         response2 = requests.post(api2_url, json=data2)
         if response2.status_code == 200:
             data2_result = response2.json()
             if "List" in data2_result:
-                print(f"\nInformation by number: {phone}")
-                first_db = list(data2_result["List"].keys())[0] if data2_result["List"] else "No results"
-                if first_db != "No results":
+                print(f"\nРезультаты поиска: {query}")
+                first_db = list(data2_result["List"].keys())[0] if data2_result["List"] else "Нет результатов"
+                if first_db != "Нет результатов":
                     db_data = data2_result["List"][first_db]
                     if "Data" in db_data and db_data["Data"]:
                         record = db_data["Data"][0]
@@ -240,43 +217,294 @@ def phone_search():
                             print(f"{prefix}{yellow}{key}:{yellow} {dark_gray}{value}.{dark_gray}")
                 all_results.append({"api": "API2", "data": data2_result})
             else:
-                print(f"\nNo results found in API2 for {phone}")
+                print(f"\nПо запросу {query} ничего не найдено")
         else:
-            print(f"\nAPI2 request failed with status code: {response2.status_code}")
+            print(f"\nОшибка API2: {response2.status_code}")
     except Exception as e:
-        print(f"\nError calling API2: {e}")
+        print(f"\nОшибка вызова API2: {e}")
     
+    return all_results
+
+def phone_search():
+    phone = input("Введите номер телефона (РФ, UA, KZ, UZ): ").strip()
+    results = search_api2(phone, "phone")
     save_choice = input("\nВведите Y чтобы сохранить результат (Enter чтобы продолжить): ").strip().upper()
     if save_choice == "Y":
-        save_to_html_french_kiss(phone, all_results)
+        save_to_html_french_kiss(phone, results)
         print("Результаты сохранены в french-kiss.html")
-    
     input("\nНажмите Enter для продолжения...")
     clear_screen()
     print_banner()
 
-def save_to_html_french_kiss(phone, results):
+def email_search():
+    email = input("Введите email: ").strip()
+    results = search_api2(email, "email")
+    save_choice = input("\nВведите Y чтобы сохранить результат (Enter чтобы продолжить): ").strip().upper()
+    if save_choice == "Y":
+        save_to_html_french_kiss(email, results)
+        print("Результаты сохранены в french-kiss.html")
+    input("\nНажмите Enter для продолжения...")
+    clear_screen()
+    print_banner()
+
+def fio_search():
+    fio = input("Введите ФИО (Ф, ФИ, ФИО): ").strip()
+    results = search_api2(fio, "fio")
+    save_choice = input("\nВведите Y чтобы сохранить результат (Enter чтобы продолжить): ").strip().upper()
+    if save_choice == "Y":
+        save_to_html_french_kiss(fio, results)
+        print("Результаты сохранены в french-kiss.html")
+    input("\nНажмите Enter для продолжения...")
+    clear_screen()
+    print_banner()
+
+def inn_search():
+    inn = input("Введите ИНН (физ/юр): ").strip()
+    results = search_api2(inn, "inn")
+    save_choice = input("\nВведите Y чтобы сохранить результат (Enter чтобы продолжить): ").strip().upper()
+    if save_choice == "Y":
+        save_to_html_french_kiss(inn, results)
+        print("Результаты сохранены в french-kiss.html")
+    input("\nНажмите Enter для продолжения...")
+    clear_screen()
+    print_banner()
+
+def snils_search():
+    snils = input("Введите СНИЛС: ").strip()
+    results = search_api2(snils, "snils")
+    save_choice = input("\nВведите Y чтобы сохранить результат (Enter чтобы продолжить): ").strip().upper()
+    if save_choice == "Y":
+        save_to_html_french_kiss(snils, results)
+        print("Результаты сохранены в french-kiss.html")
+    input("\nНажмите Enter для продолжения...")
+    clear_screen()
+    print_banner()
+
+def car_plate_ru_search():
+    plate = input("Введите госномер РФ (A777AA07): ").strip()
+    results = search_api2(plate, "car_plate_ru")
+    save_choice = input("\nВведите Y чтобы сохранить результат (Enter чтобы продолжить): ").strip().upper()
+    if save_choice == "Y":
+        save_to_html_french_kiss(plate, results)
+        print("Результаты сохранены в french-kiss.html")
+    input("\nНажмите Enter для продолжения...")
+    clear_screen()
+    print_banner()
+
+def car_plate_ua_search():
+    plate = input("Введите госномер UA (ВО4561АХ): ").strip()
+    results = search_api2(plate, "car_plate_ua")
+    save_choice = input("\nВведите Y чтобы сохранить результат (Enter чтобы продолжить): ").strip().upper()
+    if save_choice == "Y":
+        save_to_html_french_kiss(plate, results)
+        print("Результаты сохранены в french-kiss.html")
+    input("\nНажмите Enter для продолжения...")
+    clear_screen()
+    print_banner()
+
+def vin_search():
+    vin = input("Введите VIN (XTA21150053965897): ").strip()
+    results = search_api2(vin, "vin")
+    save_choice = input("\nВведите Y чтобы сохранить результат (Enter чтобы продолжить): ").strip().upper()
+    if save_choice == "Y":
+        save_to_html_french_kiss(vin, results)
+        print("Результаты сохранены в french-kiss.html")
+    input("\nНажмите Enter для продолжения...")
+    clear_screen()
+    print_banner()
+
+def ip_search():
+    ip = input("Введите IP-адрес (8.8.8.8): ").strip()
+    results = search_api2(ip, "ip")
+    save_choice = input("\nВведите Y чтобы сохранить результат (Enter чтобы продолжить): ").strip().upper()
+    if save_choice == "Y":
+        save_to_html_french_kiss(ip, results)
+        print("Результаты сохранены в french-kiss.html")
+    input("\nНажмите Enter для продолжения...")
+    clear_screen()
+    print_banner()
+
+def address_search():
+    address = input("Введите адрес (Москва, ул. Островитянова, 9к4, 94): ").strip()
+    results = search_api2(address, "address")
+    save_choice = input("\nВведите Y чтобы сохранить результат (Enter чтобы продолжить): ").strip().upper()
+    if save_choice == "Y":
+        save_to_html_french_kiss(address, results)
+        print("Результаты сохранены в french-kiss.html")
+    input("\nНажмите Enter для продолжения...")
+    clear_screen()
+    print_banner()
+
+def vk_search():
+    vk = input("Введите VK (vk.com/id1): ").strip()
+    results = search_api2(vk, "vk")
+    save_choice = input("\nВведите Y чтобы сохранить результат (Enter чтобы продолжить): ").strip().upper()
+    if save_choice == "Y":
+        save_to_html_french_kiss(vk, results)
+        print("Результаты сохранены в french-kiss.html")
+    input("\nНажмите Enter для продолжения...")
+    clear_screen()
+    print_banner()
+
+def ok_search():
+    ok = input("Введите OK (ok.ru/profile/58460): ").strip()
+    results = search_api2(ok, "ok")
+    save_choice = input("\nВведите Y чтобы сохранить результат (Enter чтобы продолжить): ").strip().upper()
+    if save_choice == "Y":
+        save_to_html_french_kiss(ok, results)
+        print("Результаты сохранены в french-kiss.html")
+    input("\nНажмите Enter для продолжения...")
+    clear_screen()
+    print_banner()
+
+def fb_search():
+    fb = input("Введите FB (facebook.com/id12345): ").strip()
+    results = search_api2(fb, "fb")
+    save_choice = input("\nВведите Y чтобы сохранить результат (Enter чтобы продолжить): ").strip().upper()
+    if save_choice == "Y":
+        save_to_html_french_kiss(fb, results)
+        print("Результаты сохранены в french-kiss.html")
+    input("\nНажмите Enter для продолжения...")
+    clear_screen()
+    print_banner()
+
+def save_to_html_french_kiss(query, results):
     from datetime import datetime
     
     current_date = datetime.now().strftime("%d.%m.%Y %H:%M:%S")
     
-    # Получаем данные из обоих API
-    api1_data = None
     api2_data = None
-    
     for result in results:
-        if result["api"] == "API1":
-            api1_data = result["data"]
-        elif result["api"] == "API2":
+        if result["api"] == "API2":
             api2_data = result["data"]
+            break
     
-    # Создаем HTML с новой структурой
+    if not api2_data or "List" not in api2_data:
+        html_content = f'''<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>French Kiss Report - {query}</title>
+    <style>
+        * {{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }}
+        
+        body {{
+            font-family: 'Courier New', monospace;
+            background-color: #0a0a0a;
+            color: #cccccc;
+            line-height: 1.4;
+            padding: 20px;
+            min-height: 100vh;
+        }}
+        
+        .container {{
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #111111;
+            border: 1px solid #333333;
+            padding: 20px;
+        }}
+        
+        .header {{
+            border-bottom: 1px solid #333333;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }}
+        
+        .title {{
+            color: #ffffff;
+            font-size: 1.2em;
+            font-weight: normal;
+            margin-bottom: 5px;
+        }}
+        
+        .subtitle {{
+            color: #666666;
+            font-size: 0.9em;
+        }}
+        
+        .info {{
+            color: #888888;
+            font-size: 0.85em;
+            margin-bottom: 25px;
+        }}
+        
+        .error {{
+            color: #ff3333;
+            padding: 20px;
+            border: 1px solid #333333;
+            background-color: #0f0f0f;
+        }}
+        
+        .footer {{
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid #333333;
+            color: #555555;
+            font-size: 0.8em;
+            text-align: center;
+        }}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="title">French Kiss Report</div>
+            <div class="subtitle">Информационный агрегатор</div>
+        </div>
+        
+        <div class="info">
+            <div>Дата: {current_date}</div>
+            <div>Запрос: {query}</div>
+        </div>
+        
+        <div class="error">
+        </div>
+        
+        <div class="footer">
+            © French-kiss.com | Для исследовательских целей
+        </div>
+    </div>
+</body>
+</html>'''
+        
+        filename = f"french-kiss-{query.replace('+', '').replace(' ', '')}.html"
+        with open(filename, 'w', encoding='utf-8') as f:
+            f.write(html_content)
+        return filename
+    
+    all_leaks = []
+    total_records = 0
+    
+    for db_name, db_data in api2_data.get("List", {}).items():
+        if "Data" in db_data and db_data["Data"]:
+            records = []
+            for record in db_data["Data"]:
+                formatted_record = {}
+                for key, value in record.items():
+                    if value:  
+                        formatted_record[key] = value
+                if formatted_record:
+                    records.append(formatted_record)
+            
+            if records:
+                all_leaks.append({
+                    "db_name": db_name,
+                    "records": records
+                })
+                total_records += len(records)
+    
     html_content = f'''<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>French Kiss Report - {phone}</title>
+    <title>French Kiss Report - {query}</title>
     <style>
         * {{
             margin: 0;
@@ -294,7 +522,7 @@ def save_to_html_french_kiss(phone, results):
         }}
         
         .container {{
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 0 auto;
             background-color: #111111;
             border: 1px solid #222222;
@@ -335,38 +563,41 @@ def save_to_html_french_kiss(phone, results):
             padding: 20px;
         }}
         
-        .api-section {{
-            margin-bottom: 30px;
+        .section {{
+            margin-bottom: 25px;
         }}
         
-        .api-header {{
+        .section-title {{
+            color: #ffffff;
+            font-size: 1em;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #333333;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }}
+        
+        .database {{
+            margin-bottom: 20px;
+            border: 1px solid #222222;
+        }}
+        
+        .db-header {{
             background-color: #151515;
             padding: 10px 15px;
             border-bottom: 1px solid #222222;
             color: #ffffff;
             font-size: 0.9em;
-            margin-bottom: 15px;
         }}
         
-        .api-content {{
-            padding: 0 15px 15px 15px;
-        }}
-        
-        .api-info {{
-            color: #888888;
-            font-size: 0.85em;
-            margin-bottom: 15px;
-            padding: 10px;
-            border: 1px solid #333333;
-            background-color: #0f0f0f;
+        .db-content {{
+            padding: 15px;
         }}
         
         .record {{
-            margin-bottom: 20px;
-            padding-bottom: 20px;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
             border-bottom: 1px solid #1a1a1a;
-            display: flex;
-            gap: 20px;
         }}
         
         .record:last-child {{
@@ -375,107 +606,25 @@ def save_to_html_french_kiss(phone, results):
             border-bottom: none;
         }}
         
-        .record-data {{
-            flex: 1;
-            min-width: 0;
-        }}
-        
-        .record-photos {{
-            width: 350px;
-            flex-shrink: 0;
-            display: flex;
-            flex-direction: column;
-        }}
-        
-        .photos-header {{
-            color: #ffffff;
-            font-size: 0.9em;
-            margin-bottom: 15px;
-            padding-bottom: 5px;
-            border-bottom: 1px solid #333333;
-            text-align: center;
-        }}
-        
-        .photo-container {{
-            width: 100%;
-            margin-bottom: 15px;
-            border: 1px solid #333333;
-            border-radius: 4px;
-            overflow: hidden;
-            background-color: #151515;
-        }}
-        
-        .photo-img {{
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-            display: block;
-        }}
-        
-        .photo-info {{
-            padding: 10px;
-            background-color: #0f0f0f;
-            border-top: 1px solid #333333;
-        }}
-        
-        .photo-title {{
-            color: #ffffff;
-            font-size: 0.85em;
-            margin-bottom: 5px;
-        }}
-        
-        .photo-source {{
-            color: #888888;
-            font-size: 0.75em;
-            word-break: break-all;
-        }}
-        
-        .no-photo {{
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #666666;
-            font-size: 0.9em;
-            width: 100%;
-            height: 300px;
-            background-color: #0f0f0f;
-        }}
-        
         .record-line {{
-            margin: 5px 0;
+            margin: 3px 0;
             display: flex;
-            align-items: flex-start;
         }}
         
         .line-prefix {{
             color: #666666;
             margin-right: 8px;
             min-width: 10px;
-            flex-shrink: 0;
         }}
         
         .record-key {{
             color: #888888;
-            min-width: 140px;
-            flex-shrink: 0;
+            min-width: 120px;
         }}
         
         .record-value {{
             color: #cccccc;
             flex: 1;
-            word-break: break-word;
-        }}
-        
-        .data-group {{
-            margin-bottom: 15px;
-        }}
-        
-        .group-title {{
-            color: #aaaaaa;
-            font-size: 0.85em;
-            margin-bottom: 8px;
-            padding-left: 18px;
-            text-transform: uppercase;
         }}
         
         .footer {{
@@ -494,129 +643,6 @@ def save_to_html_french_kiss(phone, results):
             text-align: center;
             border: 1px solid #222222;
         }}
-        
-        .api1-record {{
-            margin-bottom: 15px;
-            padding: 15px;
-            border: 1px solid #333333;
-            background-color: #0f0f0f;
-        }}
-        
-        .api1-source {{
-            color: #ff9900;
-            font-size: 0.8em;
-            margin-bottom: 10px;
-            padding-bottom: 5px;
-            border-bottom: 1px solid #444444;
-        }}
-        
-        .api1-data {{
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 10px;
-        }}
-        
-        .api1-item {{
-            margin: 3px 0;
-        }}
-        
-        .api1-key {{
-            color: #888888;
-            font-size: 0.85em;
-        }}
-        
-        .api1-value {{
-            color: #cccccc;
-            font-size: 0.85em;
-            word-break: break-word;
-        }}
-        
-        .photo-gallery {{
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 10px;
-            margin-top: 10px;
-        }}
-        
-        .gallery-photo {{
-            width: 100%;
-            height: 150px;
-            border-radius: 4px;
-            overflow: hidden;
-            border: 1px solid #333333;
-            background-color: #0f0f0f;
-        }}
-        
-        .gallery-img {{
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }}
-        
-        .gallery-info {{
-            color: #888888;
-            font-size: 0.75em;
-            text-align: center;
-            margin-top: 5px;
-            word-break: break-all;
-        }}
-        
-        .summary {{
-            padding: 15px;
-            margin-bottom: 20px;
-            border: 1px solid #222222;
-            background-color: #151515;
-        }}
-        
-        .summary-title {{
-            color: #ffffff;
-            font-size: 0.9em;
-            margin-bottom: 10px;
-        }}
-        
-        .summary-stats {{
-            display: flex;
-            gap: 20px;
-            color: #888888;
-            font-size: 0.85em;
-        }}
-        
-        .summary-stat {{
-            display: flex;
-            flex-direction: column;
-        }}
-        
-        .stat-value {{
-            color: #cccccc;
-            font-size: 1.1em;
-        }}
-        
-        .stat-label {{
-            color: #666666;
-            font-size: 0.8em;
-        }}
-        
-        @media (max-width: 900px) {{
-            .record {{
-                flex-direction: column;
-            }}
-            
-            .record-photos {{
-                width: 100%;
-                order: -1;
-                margin-bottom: 20px;
-            }}
-            
-            .photo-container {{
-                max-width: 400px;
-                margin-left: auto;
-                margin-right: auto;
-            }}
-            
-            .api1-data {{
-                grid-template-columns: 1fr;
-            }}
-        }}
     </style>
 </head>
 <body>
@@ -628,409 +654,64 @@ def save_to_html_french_kiss(phone, results):
         
         <div class="metadata">
             <div class="metadata-item">Дата: {current_date}</div>
-            <div class="metadata-item">Запрос: {phone}</div>
+            <div class="metadata-item">Запрос: {query}</div>
+            <div class="metadata-item">Найдено: {total_records} записей</div>
         </div>
         
         <div class="content">
-            <div class="summary">
-                <div class="summary-title">ОБЩАЯ СТАТИСТИКА ПОИСКА</div>
-                <div class="summary-stats">
 '''
-    
-    # Собираем статистику
-    api1_count = 0
-    api2_count = 0
-    total_records = 0
-    total_leaks = 0
-    
-    if api1_data and "results" in api1_data:
-        api1_count = len(api1_data["results"])
-        total_records += api1_count
-        total_leaks += len(set([r.get("data", "Unknown") for r in api1_data["results"]]))
-    
-    all_leaks = []
-    if api2_data and "List" in api2_data:
-        for db_name, db_data in api2_data.get("List", {}).items():
-            if "Data" in db_data and db_data["Data"]:
-                records = []
-                for record in db_data["Data"]:
-                    formatted_record = {}
-                    for key, value in record.items():
-                        if value:  
-                            formatted_record[key] = value
-                    if formatted_record:
-                        records.append(formatted_record)
-                
-                if records:
-                    all_leaks.append({
-                        "db_name": db_name,
-                        "records": records
-                    })
-                    api2_count += len(records)
-        
-        total_records += api2_count
-        total_leaks += len(all_leaks)
-    
-    html_content += f'''
-                    <div class="summary-stat">
-                        <div class="stat-value">{total_records}</div>
-                        <div class="stat-label">Всего записей</div>
-                    </div>
-                    <div class="summary-stat">
-                        <div class="stat-value">{total_leaks}</div>
-                        <div class="stat-label">Источников данных</div>
-                    </div>
-                    <div class="summary-stat">
-                        <div class="stat-value">{api1_count}</div>
-                        <div class="stat-label">API1 записей</div>
-                    </div>
-                    <div class="summary-stat">
-                        <div class="stat-value">{api2_count}</div>
-                        <div class="stat-label">API2 записей</div>
-                    </div>
-                </div>
-            </div>
-    '''
-    
-    # Секция API1
-    if api1_data and "results" in api1_data and api1_data["results"]:
-        html_content += '''
-            <div class="api-section">
-                <div class="api-header">API1 - ДАННЫЕ ИЗ ОТКРЫТЫХ БАЗ</div>
-                <div class="api-content">
-        '''
-        
-        if "search_time_seconds" in api1_data:
-            html_content += f'''
-                    <div class="api-info">
-                        Время поиска: {api1_data["search_time_seconds"]} секунд | Найдено записей: {len(api1_data["results"])}
-                    </div>
-            '''
-        
-        for result in api1_data["results"]:
-            source = result.get("data", "Unknown Source")
-            
-            html_content += f'''
-                    <div class="api1-record">
-                        <div class="api1-source">{source}</div>
-                        <div class="api1-data">
-            '''
-            
-            # Сортируем ключи для лучшего отображения
-            sorted_keys = sorted(result.keys())
-            for key in sorted_keys:
-                if key != "data" and result[key]:
-                    html_content += f'''
-                            <div class="api1-item">
-                                <span class="api1-key">{key}: </span>
-                                <span class="api1-value">{result[key]}</span>
-                            </div>
-                    '''
-            
-            html_content += '''
-                        </div>
-                    </div>
-            '''
-        
-        html_content += '''
-                </div>
-            </div>
-        '''
-    
-    # Секция API2
+
     if all_leaks:
-        html_content += '''
-            <div class="api-section">
-                <div class="api-header">API2 - ДАННЫЕ ИЗ УТЕЧЕК</div>
-                <div class="api-content">
-        '''
+        html_content += '<div class="section">\n'
         
         for leak in all_leaks:
             html_content += f'''
-                    <div class="api-section" style="margin-bottom: 20px; border: 1px solid #222222;">
-                        <div class="api-header" style="margin-bottom: 0;">{leak["db_name"]}</div>
-                        <div class="api-content">
+            <div class="database">
+                <div class="db-header">{leak["db_name"]}</div>
+                <div class="db-content">
             '''
             
-            # Сначала собираем все записи для этой утечки
-            records_with_photos = []
-            photo_urls = []
-            
-            for record in leak["records"]:
-                # Ищем URL аватарки
-                avatar_url = None
-                avatar_keys = ['Avatar', 'avatar', 'Photo', 'photo', 'ProfileImage', 'profile_image']
-                for key in avatar_keys:
-                    if key in record:
-                        avatar_url = record[key]
-                        break
+            for i, record in enumerate(leak["records"]):
+                html_content += '<div class="record">\n'
                 
-                if avatar_url and avatar_url not in photo_urls:
-                    photo_urls.append(avatar_url)
-                
-                records_with_photos.append({
-                    'record': record,
-                    'avatar_url': avatar_url
-                })
-            
-            # Теперь отображаем все записи с фото в одном блоке
-            for i, record_data in enumerate(records_with_photos):
-                record = record_data['record']
-                avatar_url = record_data['avatar_url']
-                
-                html_content += f'''
-                        <div class="record">
-                            <div class="record-data">
-                '''
-                
-                # Группируем данные по категориям
-                personal_info = {}
-                contact_info = {}
-                location_info = {}
-                education_info = {}
-                other_info = {}
-                
-                personal_fields = ['FirstName', 'LastName', 'NickName', 'Gender', 'BDay', 'Relationship']
-                contact_fields = ['Phone', 'Email', 'VkID', 'Link']
-                location_fields = ['City', 'Country', 'Region']
-                education_fields = ['Education', 'University', 'School']
-                
-                for key, value in record.items():
-                    if key in avatar_keys:
-                        continue  # Аватарку обрабатываем отдельно
-                    
-                    if key in personal_fields:
-                        personal_info[key] = value
-                    elif key in contact_fields:
-                        contact_info[key] = value
-                    elif key in location_fields:
-                        location_info[key] = value
-                    elif key in education_fields:
-                        education_info[key] = value
-                    elif key not in ['Description', 'desc', 'Bio']:
-                        other_info[key] = value
-                
-                # Описание отдельно
-                description = record.get('Description') or record.get('desc') or record.get('Bio')
-                
-                # Выводим описание если есть
-                if description:
+                items = list(record.items())
+                for j, (key, value) in enumerate(items):
+                    prefix = "├─" if j < len(items) - 1 else "└─"
                     html_content += f'''
-                                <div class="data-group">
-                                    <div class="group-title">Описание</div>
-                                    <div class="record-line">
-                                        <div class="record-value" style="color: #aaaaaa; font-style: italic;">"{description}"</div>
-                                    </div>
-                                </div>
+                    <div class="record-line">
+                        <span class="line-prefix">{prefix}</span>
+                        <span class="record-key">{key}:</span>
+                        <span class="record-value">{value}</span>
+                    </div>
                     '''
                 
-                # Личная информация
-                if personal_info:
-                    html_content += '''
-                                <div class="data-group">
-                                    <div class="group-title">Личная информация</div>
-                    '''
-                    for key, value in personal_info.items():
-                        html_content += f'''
-                                    <div class="record-line">
-                                        <span class="line-prefix">├─</span>
-                                        <span class="record-key">{key}:</span>
-                                        <span class="record-value">{value}</span>
-                                    </div>
-                        '''
-                    html_content += '''
-                                </div>
-                    '''
-                
-                # Контактная информация
-                if contact_info:
-                    html_content += '''
-                                <div class="data-group">
-                                    <div class="group-title">Контактная информация</div>
-                    '''
-                    for key, value in contact_info.items():
-                        html_content += f'''
-                                    <div class="record-line">
-                                        <span class="line-prefix">├─</span>
-                                        <span class="record-key">{key}:</span>
-                                        <span class="record-value">{value}</span>
-                                    </div>
-                        '''
-                    html_content += '''
-                                </div>
-                    '''
-                
-                # Локация
-                if location_info:
-                    html_content += '''
-                                <div class="data-group">
-                                    <div class="group-title">Местоположение</div>
-                    '''
-                    for key, value in location_info.items():
-                        html_content += f'''
-                                    <div class="record-line">
-                                        <span class="line-prefix">├─</span>
-                                        <span class="record-key">{key}:</span>
-                                        <span class="record-value">{value}</span>
-                                    </div>
-                        '''
-                    html_content += '''
-                                </div>
-                    '''
-                
-                # Образование
-                if education_info:
-                    html_content += '''
-                                <div class="data-group">
-                                    <div class="group-title">Образование</div>
-                    '''
-                    for key, value in education_info.items():
-                        html_content += f'''
-                                    <div class="record-line">
-                                        <span class="line-prefix">├─</span>
-                                        <span class="record-key">{key}:</span>
-                                        <span class="record-value">{value}</span>
-                                    </div>
-                        '''
-                    html_content += '''
-                                </div>
-                    '''
-                
-                # Прочая информация
-                if other_info:
-                    html_content += '''
-                                <div class="data-group">
-                                    <div class="group-title">Дополнительно</div>
-                    '''
-                    for key, value in other_info.items():
-                        html_content += f'''
-                                    <div class="record-line">
-                                        <span class="line-prefix">├─</span>
-                                        <span class="record-key">{key}:</span>
-                                        <span class="record-value">{value}</span>
-                                    </div>
-                        '''
-                    html_content += '''
-                                </div>
-                    '''
-                
-                html_content += '''
-                            </div>
-                '''
-                
-                # Блок с фото
-                html_content += '''
-                            <div class="record-photos">
-                                <div class="photos-header">ФОТО ИЗ УТЕЧКИ</div>
-                '''
-                
-                if avatar_url:
-                    name = f"{record.get('FirstName', '')} {record.get('LastName', '')}".strip()
-                    if not name:
-                        name = record.get('NickName', 'Пользователь')
-                    
-                    html_content += f'''
-                                <div class="photo-container">
-                                    <img src="{avatar_url}" alt="{name}" class="photo-img" onerror="this.style.display='none'; this.parentNode.innerHTML='<div class=\\'no-photo\\'>Фото недоступно</div>';">
-                                    <div class="photo-info">
-                                        <div class="photo-title">{name}</div>
-                                        <div class="photo-source">
-                                            Источник: {leak["db_name"]}<br>
-                                            URL: {avatar_url[:80]}{'...' if len(avatar_url) > 80 else ''}
-                                        </div>
-                                    </div>
-                                </div>
-                    '''
-                    
-                    # Если есть дополнительные фото в других записях этой же утечки
-                    if i == 0 and len(photo_urls) > 1:
-                        html_content += '''
-                                <div class="photos-header" style="margin-top: 20px;">ДОПОЛНИТЕЛЬНЫЕ ФОТО</div>
-                                <div class="photo-gallery">
-                        '''
-                        
-                        for j, photo_url in enumerate(photo_urls[1:6]):  # Ограничим 5 дополнительными фото
-                            html_content += f'''
-                                    <div class="gallery-photo">
-                                        <img src="{photo_url}" alt="Доп. фото {j+1}" class="gallery-img" onerror="this.style.display='none'; this.parentNode.innerHTML='<div class=\\'no-photo\\' style=\\'height:150px;\\'>Фото {j+1}</div>';">
-                                        <div class="gallery-info">Фото {j+1}</div>
-                                    </div>
-                            '''
-                        
-                        if len(photo_urls) > 6:
-                            html_content += f'''
-                                    <div class="gallery-photo">
-                                        <div class="no-photo" style="height:150px;">+{len(photo_urls)-6}</div>
-                                        <div class="gallery-info">Еще фото</div>
-                                    </div>
-                            '''
-                        
-                        html_content += '''
-                                </div>
-                        '''
-                else:
-                    html_content += '''
-                                <div class="photo-container">
-                                    <div class="no-photo">Фото не найдено в утечке</div>
-                                </div>
-                    '''
-                
-                html_content += '''
-                            </div>
-                        </div>
-                '''
+                html_content += '</div>\n'
             
             html_content += '''
-                        </div>
-                    </div>
+                </div>
+            </div>
             '''
         
+        html_content += '</div>\n'
+    else:
         html_content += '''
-                </div>
-            </div>
+        <div class="section">
+            <div class="section-title">Данные с утечек</div>
+            <div class="no-data">Нет данных для отображения</div>
+        </div>
         '''
-    
-    # Если нет данных вообще
-    if not api1_data and not all_leaks:
-        html_content += '''
-            <div class="api-section">
-                <div class="api-header">РЕЗУЛЬТАТЫ ПОИСКА</div>
-                <div class="api-content">
-                    <div class="no-data">По данному запросу не найдено информации ни в одном источнике</div>
-                </div>
-            </div>
-        '''
-    
+
     html_content += f'''
         </div>
         
         <div class="footer">
-            © French-kiss.com | Использование исключительно в исследовательских целях<br>
-            Данные получены из API1 и API2 источников
+            © French-kiss.com | Использование исключительно в исследовательских целях
         </div>
     </div>
-    
-    <script>
-        // Добавляем обработчик ошибок для изображений
-        document.addEventListener('DOMContentLoaded', function() {{
-            const images = document.querySelectorAll('img');
-            images.forEach(img => {{
-                img.addEventListener('error', function() {{
-                    if (!this.parentNode.querySelector('.no-photo')) {{
-                        const noPhoto = document.createElement('div');
-                        noPhoto.className = 'no-photo';
-                        noPhoto.textContent = 'Фото недоступно';
-                        this.parentNode.innerHTML = '';
-                        this.parentNode.appendChild(noPhoto);
-                    }}
-                }});
-            }});
-        }});
-    </script>
 </body>
 </html>'''
     
-    filename = f"french-kiss-{phone.replace('+', '').replace(' ', '')}.html"
+    filename = f"french-kiss-{query.replace('+', '').replace(' ', '')}.html"
     with open(filename, 'w', encoding='utf-8') as f:
         f.write(html_content)
     
@@ -1048,6 +729,30 @@ def main():
             print_help()
         elif user_input == "1":
             phone_search()
+        elif user_input == "2":
+            email_search()
+        elif user_input == "3":
+            fio_search()
+        elif user_input == "4":
+            inn_search()
+        elif user_input == "5":
+            snils_search()
+        elif user_input == "6":
+            car_plate_ru_search()
+        elif user_input == "7":
+            car_plate_ua_search()
+        elif user_input == "8":
+            vin_search()
+        elif user_input == "9":
+            ip_search()
+        elif user_input == "10":
+            address_search()
+        elif user_input == "11":
+            vk_search()
+        elif user_input == "12":
+            ok_search()
+        elif user_input == "13":
+            fb_search()
         elif user_input:
             break
 
