@@ -6,6 +6,14 @@
 
 ---
 
+### Установка и запуск
+
+```bash
+git clone https://github.com/xss-ru/french-kiss.git
+cd french-kiss
+python french_kiss.py
+```
+
 ### Объем данных
 
 - Публичные данные: 10 ТБ
