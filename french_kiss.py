@@ -196,7 +196,7 @@ def search_api2(query, search_type):
     dark_gray = "\033[90m"
     reset = "\033[0m"
     
-    api2_token = "7145018611:PPZhO6bJ"
+    api2_token = "5002811109:kDAfENtk"
     api2_url = "https://leakosintapi.com/"
     
     all_results = []
